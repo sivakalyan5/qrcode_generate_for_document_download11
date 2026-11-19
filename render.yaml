@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: document-qr-app
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --threads 4 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: DATA_DIR
+        value: /var/data
+      - key: DATABASE_PATH
+        value: /var/data/documents.db
+      - key: UPLOAD_FOLDER
+        value: /var/data/uploads
+      - key: QR_FOLDER
+        value: /var/data/qrcodes
+    disk:
+      name: document-data
+      mountPath: /var/data
+      sizeGB: 1

@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="empty-state not-found"><span>?</span><h1>Document not found</h1><p>This link may be invalid or the document may have been removed.</p><a class="button primary" href="{{ url_for('index') }}">Go to home</a></section>
+{% endblock %}

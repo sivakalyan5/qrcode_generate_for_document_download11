@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}DocQR — Upload a document{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">SCAN. OPEN. DOWNLOAD.</p>
+  <h1>Share a document<br><span>with one QR code.</span></h1>
+  <p class="subhead">Upload your file and create a QR code that opens its download link on any phone.</p>
+</section>
+
+<section class="panel upload-panel">
+  <div class="panel-heading">
+    <div class="icon-box">↑</div>
+    <div><h2>Upload document</h2><p>PDF, Word, Excel, PowerPoint, images, TXT or CSV · Max 20 MB</p></div>
+  </div>
+  <form action="{{ url_for('upload') }}" method="post" enctype="multipart/form-data" id="upload-form">
+    <label class="dropzone" for="document">
+      <span class="upload-symbol">＋</span>
+      <strong id="file-label">Choose a file or tap to browse</strong>
+      <small>Your document will be available to anyone with its QR code.</small>
+      <input type="file" id="document" name="document" required accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.jpg,.jpeg,.png">
+    </label>
+    <button class="button primary full" type="submit">Upload &amp; generate QR code <span>→</span></button>
+  </form>
+</section>
+
+<section class="documents">
+  <div class="section-title"><div><p class="eyebrow">YOUR LIBRARY</p><h2>Recent documents</h2></div><span class="count">{{ documents|length }} files</span></div>
+  {% if documents %}
+    <div class="document-list">
+      {% for doc in documents %}
+      <a class="document-row" href="{{ url_for('document_detail', doc_id=doc.id) }}">
+        <span class="file-icon">▤</span>
+        <span class="file-info"><strong>{{ doc.original_name }}</strong><small>{{ doc.uploaded_at }}</small></span>
+        <span class="row-arrow">↗</span>
+      </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state"><span>▧</span><strong>No documents yet</strong><p>Your uploaded documents will appear here.</p></div>
+  {% endif %}
+</section>
+{% endblock %}
